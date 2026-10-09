@@ -1,0 +1,64 @@
+{
+  "original": {
+    "file": "Vstavka-Halloween-Portal.mp4",
+    "bytes": 18982054,
+    "duration_seconds": 8.0,
+    "resolution": [
+      1920,
+      1080
+    ],
+    "frames": 192,
+    "fps": "24/1",
+    "video_bitrate": 18828116,
+    "codec": "h264",
+    "pixel_format": "yuv420p",
+    "audio_streams": 1
+  },
+  "optimized": {
+    "file": "assets/transition.b75f145c63fe992c.mp4",
+    "bytes": 6330248,
+    "duration_seconds": 8.0,
+    "resolution": [
+      1280,
+      720
+    ],
+    "frames": 192,
+    "fps": "24/1",
+    "video_bitrate": 6326993,
+    "codec": "h264",
+    "pixel_format": "yuv420p",
+    "audio_streams": 0
+  },
+  "reduction_percent": 66.65,
+  "poster": {
+    "file": "assets/poster.2b4d37f84e742c99.jpg",
+    "bytes": 170553,
+    "resolution": [
+      1280,
+      720
+    ]
+  },
+  "original_keyframe_times": [
+    "0.000000"
+  ],
+  "optimized_keyframe_times": [
+    "0.000000",
+    "2.000000",
+    "4.000000",
+    "6.000000"
+  ],
+  "frame_timestamps_equal": true,
+  "full_decode_passed": true,
+  "faststart_atom_order": [
+    "ftyp",
+    "moov",
+    "free",
+    "mdat"
+  ],
+  "frame_comparison": "[Parsed_ssim_1 @ 0x7876c2b780] SSIM Y:0.971062 (15.385349) U:0.977776 (16.531810) V:0.977170 (16.414867) All:0.973199 (15.718509)",
+  "browser_playback": "UNVERIFIED: no browser available",
+  "genially_embedding": "UNVERIFIED",
+  "http_delivery": "PASS: page, iframe harness, MP4, JPEG returned HTTP 200 with exact local bytes",
+  "javascript_checks": "PASS: explicit configuration, safe rejected play promise, visibility retry, no interruption of active video",
+  "layout_checks": "PASS: static contain sizing for 1280x720, 640x360, 1920x1080, 1000x720, 360x640; transparent background; no overlays"
+}

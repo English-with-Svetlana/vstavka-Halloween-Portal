@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const listeners = {};
+let attempts = 0;
+const video = { paused: true, addEventListener: (name, fn) => { listeners[name] = fn; }, play: () => { attempts++; return Promise.reject(new Error('Autoplay denied for test')); } };
+const document = { hidden: false, querySelector: () => video, addEventListener: (name, fn) => { listeners[name] = fn; } };
+const window = { addEventListener: (name, fn) => { listeners[name] = fn; } };
+vm.runInNewContext(html.match(/<script>([\s\S]*?)<\/script>/)[1], {document, window});
+await new Promise(resolve => setImmediate(resolve));
+for (const property of ['autoplay', 'loop', 'muted', 'defaultMuted', 'playsInline']) assert.equal(video[property], true);
+assert.equal(video.volume, 0);
+assert.equal(video.controls, false);
+assert.equal(attempts, 1);
+document.hidden = true;
+listeners.visibilitychange();
+assert.equal(attempts, 1);
+document.hidden = false;
+listeners.visibilitychange();
+await new Promise(resolve => setImmediate(resolve));
+assert.equal(attempts, 2);
+video.paused = false;
+listeners.pageshow();
+assert.equal(attempts, 2, 'Do not interfere with active playback');
+assert.equal(listeners.ended, undefined);
+assert(!/setTimeout|setInterval|currentTime\s*=|\.pause\(|opacity|<img|<button/.test(html));
+for (const [, path] of html.matchAll(/(?:src|poster|href)="(assets\/[^\"]+)"/g)) assert(fs.existsSync(new URL('../' + path, import.meta.url)));
+assert(/<video autoplay muted playsinline loop preload="auto"/.test(html));
+assert(/background: transparent/.test(html) && /object-fit: contain/.test(html));
+for (const [w, h] of [[1280,720],[640,360],[1920,1080],[1000,720],[360,640]]) {
+  const videoWidth = Math.min(w, h * 16 / 9);
+  assert(videoWidth <= w + 1e-6 && videoWidth * 9 / 16 <= h + 1e-6);
+}
+console.log('PASS: playback configuration, handled rejection, visibility retry, active playback preserved, asset paths, no stop timers/overlays, responsive sizing. Actual browser playback is unverified.');
